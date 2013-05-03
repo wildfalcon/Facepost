@@ -75,4 +75,34 @@ describe Facepost do
     
   end
 
+  describe "List pages" do
+    
+    before(:each) do
+      page_1_json = '{"category":"Artist",
+      "name":"Page1",
+      "access_token":"123asd",
+      "id":"609925135690770",
+      "perms":["ADMINISTER","EDIT_PROFILE","CREATE_CONTENT","MODERATE_CONTENT","CREATE_ADS","BASIC_ADMIN"]}'
+
+      page_2_json = '{"category":"Artist",
+      "name":"Page2",
+      "access_token":"123asd",
+      "id":"609925135690770",
+      "perms":["ADMINISTER","EDIT_PROFILE","CREATE_CONTENT","MODERATE_CONTENT","CREATE_ADS","BASIC_ADMIN"]}'
+
+      @accounts_url = /https:\/\/graph.facebook.com\/me\/accounts.*/
+      payload = "{\"data\":[#{page_1_json}, #{page_2_json}]}"
+      stub_request(:get, @accounts_url).to_return(:body => payload)
+    end
+    
+    
+    it "should return a list of the pages" do
+      page1 = {:name => "Page1", :token => "123asd", :uid => "609925135690770"}
+      page2 = {:name => "Page2", :token => "123asd", :uid => "609925135690770"}
+      pages = Facepost.list_pages("token")
+      pages.should include(page1)
+      pages.should include(page2)
+    end
+  end
+
 end

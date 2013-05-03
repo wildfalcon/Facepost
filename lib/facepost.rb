@@ -36,4 +36,14 @@ module Facepost
       hash["id"]
   end
 
+  def self.list_pages(token) #user_id is assumed from the token
+    url = "https://graph.facebook.com/me/accounts?access_token=#{token}"
+    pages = JSON.parse(RestClient.get(url))["data"]
+    pages.map do |page|
+      {:name => page["name"],
+       :token => page["access_token"],
+       :uid => page["id"]}
+    end
+  end
+
 end
