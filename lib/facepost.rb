@@ -19,4 +19,21 @@ module Facepost
     hash["id"]
   end
 
+  def self.post_photo(album_uid, token, photo, caption = nil)
+      photo_url = "https://graph.facebook.com/#{album_uid}/photos"
+
+      params = {
+        :source => photo, 
+        :access_token => token,
+        :name => caption
+      }
+      begin
+        response = RestClient.post photo_url, params
+      rescue RestClient::BadRequest
+        raise Facepost::BadRequest
+      end
+      hash = JSON.parse(response)
+      hash["id"]
+  end
+
 end
