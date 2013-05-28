@@ -22,8 +22,9 @@ module Facepost
   def self.post_photo(album_uid, token, photo, caption = nil)
       photo_url = "https://graph.facebook.com/#{album_uid}/photos"
 
+      photo.rewind
       params = {
-        :source => photo.rewind, 
+        :source => photo, 
         :access_token => token,
         :name => caption
       }
