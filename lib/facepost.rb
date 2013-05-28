@@ -23,7 +23,7 @@ module Facepost
       photo_url = "https://graph.facebook.com/#{album_uid}/photos"
 
       params = {
-        :source => photo, 
+        :source => photo.rewind, 
         :access_token => token,
         :name => caption
       }
